@@ -145,7 +145,7 @@ def run_bot():
 
 if __name__ == "__main__":
     # Start LocalTunnel automatically
-    subprocess.Popen(["pylt", "port", "5000", "-s", "your_custom_subdomain"])
+    subprocess.Popen(["pylt", "port", "5000", "-s", ""])
 
     # Run Flask and Telegram bot in separate threads
     flask_thread = threading.Thread(target=run_flask)
