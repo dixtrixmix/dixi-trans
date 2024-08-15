@@ -12,7 +12,7 @@ import subprocess
 
 # Configure logging
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s',
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 
@@ -135,7 +135,7 @@ def index():
     global telegram_app
     if telegram_app is None:
         telegram_app = create_app()
-        telegram_app.run_polling()
+        asyncio.run(telegram_app.run_polling())
     return "Telegram bot is running!"
 
 if __name__ == "__main__":
