@@ -8,6 +8,7 @@ import edge_tts
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
 from flask import Flask
+import subprocess
 
 # Configure logging
 logging.basicConfig(
@@ -17,9 +18,9 @@ logging.basicConfig(
 
 # Configure Cloudinary
 cloudinary.config(
-    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+    cloud_name=os.getenv("dyzeagpkw"),
+    api_key=os.getenv("737729173351875"),
+    api_secret=os.getenv("CgHVO1-0SP8Hl3aYwKj3dA6HWwU")
 )
 
 VOICES = {
@@ -138,4 +139,7 @@ def index():
     return "Telegram bot is running!"
 
 if __name__ == "__main__":
+    # Start LocalTunnel automatically
+    subprocess.Popen(["pylt", "port", "5000", "-s", ""])
+
     flask_app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
