@@ -5,4 +5,4 @@ edge-tts
 gunicorn
 flask
 py-localtunnel
-
+requests
