@@ -1,8 +1,6 @@
 import os
 import logging
 import asyncio
-import threading
-import subprocess
 import cloudinary
 import cloudinary.uploader
 from docx import Document
@@ -31,6 +29,7 @@ VOICES = {
 
 # Flask app
 flask_app = Flask(__name__)
+
 
 # Define telegram_app globally
 telegram_app = None
@@ -120,7 +119,7 @@ async def save_text_to_audio(text, voice, output_file):
     except Exception as e:
         logging.error(f"Error saving text to audio: {e}")
 
-def create_bot_app():
+def create_app():
     application = ApplicationBuilder().token(os.getenv("TELEGRAM_BOT_TOKEN")).build()
     
     application.add_handler(CommandHandler("start", start))
@@ -133,26 +132,11 @@ def create_bot_app():
 
 @flask_app.route('/')
 def index():
+    global telegram_app
+    if telegram_app is None:
+        telegram_app = create_app()
+        telegram_app.run_polling()
     return "Telegram bot is running!"
 
-def run_flask():
-    flask_app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
-def run_bot():
-    global telegram_app
-    telegram_app = create_bot_app()
-    asyncio.run(telegram_app.run_polling())
-
 if __name__ == "__main__":
-    # Start LocalTunnel automatically
-    subprocess.Popen(["pylt", "port", "5000", "-s", ""])
-
-    # Run Flask and Telegram bot in separate threads
-    flask_thread = threading.Thread(target=run_flask)
-    bot_thread = threading.Thread(target=run_bot)
-
-    flask_thread.start()
-    bot_thread.start()
-
-    flask_thread.join()
-    bot_thread.join()
+    flask_app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
