@@ -8,7 +8,7 @@ import edge_tts
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
 from flask import Flask
-from subprocess import Popen
+import localtunnel
 
 # Configure logging
 logging.basicConfig(
@@ -133,12 +133,13 @@ def create_app():
 @flask_app.route('/')
 def index():
     global telegram_app
-    if (telegram_app is None):
+    if telegram_app is None:
         telegram_app = create_app()
         telegram_app.run_polling()
 
     # Start LocalTunnel and expose the local Flask app
-    Popen(["lt", "--port", "5000", "--subdomain", ""])
+    tunnel = localtunnel.LocalTunnel(port=5000, subdomain="yourchosenname")
+    print(f"Public URL: {tunnel.url}")
 
     return "Telegram bot is running and accessible via LocalTunnel!"
 
