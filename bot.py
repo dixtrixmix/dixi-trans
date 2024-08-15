@@ -14,11 +14,11 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-# Configure Cloudinary
+#cloudinary
 cloudinary.config(
-    cloud_name=os.getenv("dyzeagpkw"),
-    api_key=os.getenv("737729173351875"),
-    api_secret=os.getenv("CgHVO1-0SP8Hl3aYwKj3dA6HWwU")
+    cloud_name=os.getenv("CLOUD_NAME"),
+    api_key=os.getenv("API_KEY"),
+    api_secret=os.getenv("API_SECRET")
 )
 
 VOICES = {
